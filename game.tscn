@@ -1,3 +1,25 @@
-[gd_scene format=3 uid="uid://cocvc2porq5r5"]
+[gd_scene load_steps=4 format=3 uid="uid://cocvc2porq5r5"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" uid="uid://bg7efiwiio5vc" path="res://MobSpawner.cs" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://hsgvs0qdaskm" path="res://sample_mob.tscn" id="2_e2o6t"]
+
+[sub_resource type="Curve2D" id="Curve2D_mwb40"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 296, 40, 0, 0, 0, 0, 384, 112, 0, 0, 0, 0, 32, 40, 0, 0, 0, 0, 368, 224)
+}
+point_count = 4
+
+[node name="Main" type="Node2D"]
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_mwb40")
+
+[node name="MobSpawner" type="Node" parent="." node_paths=PackedStringArray("MobTimer", "MobPath")]
+script = ExtResource("1_80nbo")
+MobScene = ExtResource("2_e2o6t")
+MobTimer = NodePath("../MobTimer")
+MobPath = NodePath("../MobPath")
+
+[node name="MobTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="MobTimer" to="MobSpawner" method="SpawnMob"]
